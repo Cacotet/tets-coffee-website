@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Tet’s Coffee is a small-batch roastery and café in Kohima, Nagaland. Beans roasted here, poured here. Pre-order beans, grounds and easy pour sachets on WhatsApp."
+    />
+    <meta name="theme-color" content="#8c9a5b" />
+    <title>Tet’s Coffee · Roastery & Café, Kohima</title>
+    <link rel="icon" href="assets/logo.png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="css/styles.css?v=14" />
+  </head>
+  <body>
+    <header class="hero" id="top">
+      <nav>
+        <a href="#top" aria-label="Tet’s Coffee, back to top">
+          <img class="logo" src="assets/logo.png" alt="Tet’s Coffee logo" />
+        </a>
+        <div>
+          <a class="lk" href="#menu">Menu</a>
+          <a class="lk" href="#beans">Beans</a>
+          <a class="lk" href="#visit">Visit</a>
+          <button class="cta" data-open>Pre-order</button>
+        </div>
+      </nav>
+      <svg class="bean" viewBox="0 0 200 200" aria-hidden="true">
+        <ellipse cx="100" cy="100" rx="62" ry="88" />
+        <path d="M100 14C70 60 130 140 100 186" />
+      </svg>
+      <div class="wrap">
+        <h1>Tet’s Coffee</h1>
+        <p class="sub">
+          Roastery and café in Kohima. Beans roasted here, poured here.
+        </p>
+        <div class="dial">
+          <label for="roast">Drag to roast a bean</label>
+          <input
+            id="roast"
+            type="range"
+            min="0"
+            max="4"
+            step="0.01"
+            value="0"
+          />
+          <div class="ticks" id="ticks"></div>
+          <div class="readout" aria-live="polite">
+            <span class="disp" id="rname">Green</span>
+            <span class="temp" id="rtemp"></span>
+            <p id="rnote"></p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="story">
+        <div class="wrap">
+          <div>
+            <p class="lede">
+              We roast in small batches in Kohima and serve the same coffee at
+              our café counter, so what you drink is days old, not months.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="menu" style="padding-top: 0">
+        <div class="wrap">
+          <h2>
+            The café
+            <span class="cafe-address">
+              Red Cross Building, PR Hill, Kohima, Nagaland
+            </span>
+          </h2>
+          <div class="tabs" role="tablist" aria-label="Menu">
+            <button role="tab" aria-selected="true" data-t="m1">Hot</button>
+            <button role="tab" aria-selected="false" data-t="m2">Cold</button>
+          </div>
+          <ul class="menu on" id="m1">
+            <li>
+              <div class="mi">
+                <b>Espresso</b>
+                <span class="price">₹80</span>
+              </div>
+              <span>Short, sweet, a little smoky.</span>
+            </li>
+            <li>
+              <div class="mi">
+                <b>Doppio</b>
+                <span class="price">₹120</span>
+              </div>
+              <span>A double shot, straight up.</span>
+            </li>
+            <li>
+              <div class="mi">
+                <b>Americano</b>
+                <span class="price">₹100</span>
+              </div>
+              <span>Espresso stretched with hot water.</span>
+            </li>
+            <li>
+              <div class="mi">
+                <b>Café latte</b>
+                <span class="price">₹120</span>
+              </div>
+              <span>Soft and milky, easy to linger over.</span>
+            </li>
+            <li>
+              <div class="mi">
+                <b>Cappuccino</b>
+                <span class="price">₹120</span>
+              </div>
+              <span>Equal parts espresso, milk and foam.</span>
+            </li>
+            <li>
+              <div class="mi">
+                <b>Mocha</b>
+                <span class="price">₹130</span>
+              </div>
+              <span>Espresso with dark chocolate and steamed milk.</span>
+            </li>
+            <li>
+              <div class="mi">
+                <b>Flat white</b>
+                <span class="price">₹150</span>
+              </div>
+              <span>Double shot, silky milk.</span>
+            </li>
+          </ul>
+          <ul class="menu" id="m2">
+            <li>
+              <div class="mi">
+                <b>Iced americano</b>
+                <span class="price">₹100</span>
+              </div>
+              <span>Espresso and cold water over ice.</span>
+            </li>
+            <li>
+              <div class="mi">
+                <b>Iced latte</b>
+                <span class="price">₹120</span>
+              </div>
+              <span>Espresso, cold milk, lots of ice.</span>
+            </li>
+            <li>
+              <div class="mi">
+                <b>Iced cappuccino</b>
+                <span class="price">₹120</span>
+              </div>
+              <span>Espresso, cold milk and a thick layer of foam.</span>
+            </li>
+            <li>
+              <div class="mi">
+                <b>Iced mocha</b>
+                <span class="price">₹130</span>
+              </div>
+              <span>Chocolate and coffee over ice.</span>
+            </li>
+          </ul>
+          <aside class="special" aria-labelledby="special-h">
+            <div class="special-media has-photo">
+              <img
+                src="assets/pumpkin.jpg"
+                alt="Pumpkin spice latte at Tet’s Coffee"
+              />
+            </div>
+            <div class="special-copy">
+              <p class="kicker">Limited time</p>
+              <h3 id="special-h">Pumpkin spice latte</h3>
+              <p class="special-price">₹150</p>
+              <p>
+                Espresso, steamed milk, pumpkin and warm autumn spice. Here for
+                a short while.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="beans" class="band">
+        <div class="wrap">
+          <h2>Take it home</h2>
+          <p class="lede" style="margin-bottom: 2.5rem">
+            Pre-order beans, grounds or easy pour sachets and we’ll prepare
+            yours so it reaches you fresh.
+          </p>
+          <div class="prods">
+            <article class="prod">
+              <img
+                src="assets/beans-bag.jpg"
+                alt="Tet’s Coffee bag front with coffee plant illustration and logo"
+              />
+              <div class="pb">
+                <h3>Beans &amp; grounds</h3>
+                <p>Whole beans to grind at home, or ground for your brewer.</p>
+                <div class="chips">
+                  <span>Light</span>
+                  <span>Medium</span>
+                  <span>Medium dark</span>
+                  <span>Dark</span>
+                </div>
+                <div class="specs">
+                  <div>
+                    <b>₹300</b>
+                    <span>200 g whole beans</span>
+                  </div>
+                  <div>
+                    <b>₹400</b>
+                    <span>250 g ground</span>
+                  </div>
+                </div>
+                <div class="acts">
+                  <button data-p="beans">Pre-order beans</button>
+                  <button data-p="grounds">Pre-order grounds</button>
+                </div>
+              </div>
+            </article>
+            <article class="prod">
+              <img
+                src="assets/easy-pour.jpg"
+                alt="Easy pour sachet beside an opened drip filter on a wooden table"
+              />
+              <div class="pb">
+                <h3>Easy pour</h3>
+                <p>
+                  Single-serve filter coffee. Hook it on your cup, add hot
+                  water, done.
+                </p>
+                <div class="specs">
+                  <div>
+                    <b>₹35</b>
+                    <span>per sachet</span>
+                  </div>
+                  <div>
+                    <b>12 g</b>
+                    <span>net weight</span>
+                  </div>
+                  <div>
+                    <b>2–3 min</b>
+                    <span>brew time</span>
+                  </div>
+                </div>
+                <div class="acts">
+                  <button data-p="easy">Pre-order easy pour</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section id="brew">
+        <div class="wrap two">
+          <div>
+            <h2>Easy pour in four steps</h2>
+            <ol class="st">
+              <li>
+                <i>1</i>
+                <div>
+                  <b>Tear</b>
+                  <br />
+                  Tear open the sachet along the top.
+                </div>
+              </li>
+              <li>
+                <i>2</i>
+                <div>
+                  <b>Set up</b>
+                  <br />
+                  Unfold the filter and hook it onto your cup.
+                </div>
+              </li>
+              <li>
+                <i>3</i>
+                <div>
+                  <b>Bloom</b>
+                  <br />
+                  Pour a little hot water and let the coffee bloom for 20–30
+                  seconds.
+                </div>
+              </li>
+              <li>
+                <i>4</i>
+                <div>
+                  <b>Pour</b>
+                  <br />
+                  Slowly pour the remaining water in circles.
+                </div>
+              </li>
+            </ol>
+            <div class="specs">
+              <div>
+                <b>180–220 ml</b>
+                <span>water</span>
+              </div>
+              <div>
+                <b>90–96°C</b>
+                <span>temperature</span>
+              </div>
+              <div>
+                <b>2–3 min</b>
+                <span>brew time</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <img
+              class="shot"
+              src="assets/easy-pour-back.jpg"
+              alt="Back of the easy pour sachet with the how to brew guide"
+            />
+            <p class="cap">The back of every easy pour sachet.</p>
+          </div>
+        </div>
+        <div class="wrap two" style="margin-top: 5rem">
+          <div>
+            <img
+              class="shot"
+              src="assets/beans-bag-back.jpg"
+              alt="Back of the beans and grounds bag with label fields"
+            />
+            <p class="cap">The back of a beans or grounds bag.</p>
+          </div>
+          <div>
+            <h2>Know what’s in your bag</h2>
+            <p class="lede">Every bag has its story written on the back.</p>
+            <p>
+              Origin, altitude, type and process, plus the roast date and batch
+              number, so you always know how fresh it is. Pick your roast
+              profile and size, and we’ll do the rest.
+            </p>
+          </div>
+        </div>
+      </section>
+      <dialog id="order" aria-labelledby="ot">
+        <h3 id="ot">Pre-order on WhatsApp</h3>
+        <label for="op">What would you like?</label>
+        <select id="op">
+          <option value="beans">Coffee beans</option>
+          <option value="grounds">Coffee grounds</option>
+          <option value="easy">Easy pour</option>
+        </select>
+        <div id="bg">
+          <label for="or">Roast</label>
+          <select id="or">
+            <option>Light</option>
+            <option>Medium</option>
+            <option>Medium dark</option>
+            <option>Dark</option>
+          </select>
+          <label for="os">Size</label>
+          <select id="os"></select>
+        </div>
+        <div id="eg" hidden>
+          <label for="oq">How many sachets?</label>
+          <input id="oq" type="number" min="1" value="10" />
+        </div>
+        <label for="on">Your name (optional)</label>
+        <input id="on" autocomplete="name" />
+        <p id="pv"></p>
+        <a class="go" id="go" target="_blank" rel="noopener">Open WhatsApp</a>
+        <button class="x" id="cx">Cancel</button>
+      </dialog>
+
+      <section id="visit" class="visit">
+        <div class="wrap two">
+          <div>
+            <h2>Come say hi</h2>
+            <p class="lede">Find us in Kohima, Nagaland.</p>
+          </div>
+          <div>
+            <dl>
+              <dt>Where</dt>
+              <dd>
+                Red Cross Building, PR Hill
+                <br />
+                Kohima, Nagaland
+                <br />
+                <a
+                  href="https://maps.app.goo.gl/HUnMFsKrtgRWkJ8u5"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Get directions on Google Maps
+                </a>
+              </dd>
+              <dt>Order</dt>
+              <dd>
+                Pre-order on WhatsApp:
+                <span id="wa-num">+91 70053 15103</span>
+              </dd>
+              <dt>Email</dt>
+              <dd>
+                <a href="mailto:Cofinaga@gmail.com">Cofinaga@gmail.com</a>
+              </dd>
+              <dt>Instagram</dt>
+              <dd>@Tets_Coffee</dd>
+            </dl>
+            <p class="note">FSSAI 219240210000896</p>
+          </div>
+          <div class="map">
+            <div
+              id="cafe-map"
+              class="cafe-map"
+              role="region"
+              aria-label="Map showing Tet’s Coffee in Kohima"
+            ></div>
+            <a
+              class="map-link"
+              href="https://maps.app.goo.gl/HUnMFsKrtgRWkJ8u5"
+              target="_blank"
+              rel="noopener"
+            >
+              Open in Google Maps
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="wrap">
+        <img class="flogo" src="assets/logo.png" alt="Tet’s Coffee logo" />
+        © 2026 Tet’s Coffee, Kohima. FSSAI 219240210000896.
+        <a href="#top">Back to the top</a>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/main.js?v=9"></script>
+  </body>
+</html>
