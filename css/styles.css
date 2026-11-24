@@ -546,6 +546,13 @@ footer {
   color: var(--mute);
   font-size: 0.95rem;
 }
+.visit-count {
+  margin: 0.25rem 0 1rem;
+}
+.visit-count span {
+  color: var(--ink);
+  font-weight: 600;
+}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

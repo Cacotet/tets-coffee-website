@@ -9,6 +9,7 @@ no admin UI — just HTML, CSS, JavaScript and image files. Edit the code direct
 index.html      Page content
 css/styles.css  All styling (colours, fonts, layout)
 js/main.js      Roast slider, menu tabs, WhatsApp pre-order dialog
+js/visitor-counter.js  Shared visitor count stored in Firestore
 assets/         Images (logo + 4 product photos)
 tetsweb.original.html   Untouched original single-file version (backup)
 ```
@@ -78,7 +79,9 @@ add things browsers restrict on `file://`; the page works when opened directly t
 - `index.html` → `<section id="visit">` for address, email, Instagram and FSSAI.
   The street address also appears next to the “The café” menu heading in the
   small `.cafe-address` line.
-- The footer also contains the FSSAI number.
+- The footer also contains the FSSAI number and the visitor count. The count is
+  shown in `#visitor-count` and is incremented once per browser by
+  `js/visitor-counter.js`.
 - The “Get directions” link and the map’s “Open in Google Maps” button both use
   the café’s Google Maps link. The map itself is a custom Leaflet map with a
   coffee-cup marker (on a white circular badge) and a “Tet’s Coffee” label. It
@@ -134,10 +137,36 @@ stays fast.
   `Newsreader`). Change the `<link>` and the `font-family` rules in
   `css/styles.css` to swap them.
 
+## Visitor count setup
+
+The page is still static, but the visitor count is stored in the
+`tet-s-coffee-roastery` Firebase project's Firestore database. In Firebase
+console → **Firestore Database → Rules**, add this rule alongside the existing
+rules (do not remove rules for other collections):
+
+```js
+match /siteVisits/tetsweb {
+  allow get: if true;
+  allow create: if request.resource.data.keys().hasOnly(["count", "updatedAt"])
+    && request.resource.data.count is int
+    && request.resource.data.count == 1
+    && request.resource.data.updatedAt == request.time;
+  allow update: if request.resource.data.keys().hasOnly(["count", "updatedAt"])
+    && request.resource.data.count is int
+    && request.resource.data.count == resource.data.count + 1
+    && request.resource.data.updatedAt == request.time;
+}
+```
+
+The counter doc is `/siteVisits/tetsweb`, with an integer `count` field. The
+script increments it only once per browser (tracked in `localStorage`), so
+reloads and repeat visits do not add to the total. Until the rule is published,
+the footer shows `Visitors: Unavailable`.
+
 ## Notes
 
-- Everything is static; there is no backend or database. Pre-orders open WhatsApp
-  with a pre-filled message.
+- Apart from the Firestore-backed visitor count, the page is static. Pre-orders
+  open WhatsApp with a pre-filled message.
 - The page is responsive and follows the visitor’s light/dark preference.
 - When you are ready to publish, upload `index.html`, `css/`, `js/` and `assets/`
   to any static host (Netlify, Cloudflare Pages, GitHub Pages, or your own

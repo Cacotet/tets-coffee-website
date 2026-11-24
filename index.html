@@ -21,7 +21,7 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
-    <link rel="stylesheet" href="css/styles.css?v=14" />
+    <link rel="stylesheet" href="css/styles.css?v=15" />
   </head>
   <body>
     <header class="hero" id="top">
@@ -433,11 +433,13 @@
       <div class="wrap">
         <img class="flogo" src="assets/logo.png" alt="Tet’s Coffee logo" />
         © 2026 Tet’s Coffee, Kohima. FSSAI 219240210000896.
+        <p class="visit-count">Visitors: <span id="visitor-count">—</span></p>
         <a href="#top">Back to the top</a>
       </div>
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="js/main.js?v=9"></script>
+    <script type="module" src="js/visitor-counter.js"></script>
   </body>
 </html>
