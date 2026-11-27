@@ -667,6 +667,15 @@ nav div {
 }
 .pb p {
   margin: 0;
+  color: var(--ink);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pb p {
+    color: #fff;
+  }
+}
+:root[data-theme="dark"] .pb p {
+  color: #fff;
 }
 .chips {
   display: flex;
